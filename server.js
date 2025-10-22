@@ -7,11 +7,21 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Routing
+// Default route untuk testing
+app.get("/", (req, res) => {
+  res.send("✅ REST API Cuci Sepatu berjalan! Gunakan endpoint /api/orders");
+});
+
+// Routing utama
 app.use("/api/orders", ordersRouter);
 
-// Port
+// Jalankan server lokal (Vercel akan abaikan ini)
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server berjalan di http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`Server berjalan di http://localhost:${PORT}`);
+  });
+}
+
+// Export app agar bisa dipakai Vercel
+export default app;
